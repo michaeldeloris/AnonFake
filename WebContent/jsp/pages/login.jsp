@@ -22,5 +22,7 @@
       </div>
       <input type="submit" name="submit" value="submit"/>
     </form>
+    
+    <%@include file="../components/footer/doDisplayFooter.jspf"%>
   </body>
 </html>

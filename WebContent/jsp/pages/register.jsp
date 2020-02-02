@@ -26,5 +26,6 @@
       <input type="submit" value="Create account">
     </form>
   
+    <%@include file="../components/footer/doDisplayFooter.jspf"%>
   </body>
 </html>
