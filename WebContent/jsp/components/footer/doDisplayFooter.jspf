@@ -1,0 +1,43 @@
+<div class="footer">
+  <div class="footer_link">
+    <a href="login">
+    	login
+    </a>
+  </div>
+  
+  <div class="footer_link">
+    <a href="register">
+    	register
+    </a>
+  </div>
+  
+  <div class="footer_link">
+    <a href="terms">
+    	terms
+    </a>
+  </div>
+  
+  <div class="footer_link">
+    <a href="docs/api">
+    	api
+    </a>
+  </div>
+  
+  <div class="footer_link">
+    <a href="faq">
+    	faq
+    </a>
+  </div>
+  
+  <div class="footer_link">
+    <a href="feedback">
+    	feedback
+    </a>
+  </div>
+  
+  <div class="footer_link">
+    <a href="abuse">
+    	report abuse
+    </a>
+  </div>
+</div>

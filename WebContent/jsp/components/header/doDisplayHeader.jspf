@@ -1,0 +1,15 @@
+<% String title = (String) request.getAttribute("page_title"); %>
+
+<div class="header">
+  <div class="header_logo">
+    <a href="./">
+      <img src="images/anonfake_logo.png">
+    </a>
+  </div>
+  <% if(title != null && !title.isEmpty()) { %>
+    <div class="header_title">
+      <%= title %>
+    </div>
+  <% } %>
+</div>
+
