@@ -2,8 +2,8 @@
 
 <div class="header">
   <div class="header_logo">
-    <a href="./">
-      <img src="images/anonfake_logo.png">
+    <a class="logo_link" href="./">
+      <img class="logo"src="images/anonfake_logo.png">
     </a>
   </div>
   <% if(title != null && !title.isEmpty()) { %>
