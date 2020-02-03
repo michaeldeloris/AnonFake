@@ -2,6 +2,9 @@
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
+  <link rel="stylesheet/less" type="text/css" href="style/main.less" />
+  <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.5.1/less.min.js"></script>
+
   <head>
   <meta charset="ISO-8859-1">
   <title>Anonymous File Upload - AnonFake</title>
