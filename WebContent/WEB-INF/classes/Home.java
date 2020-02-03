@@ -1,5 +1,3 @@
-
-
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -34,8 +32,12 @@ public class Home extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		System.out.println("Uploaded file name : " + request.getParameter("upload_file"));
+		try {
+      response.sendRedirect("./");
+    } catch(IOException e) {
+      System.out.println(e.getMessage()); //TODO : use logger
+    }
 	}
 
 }

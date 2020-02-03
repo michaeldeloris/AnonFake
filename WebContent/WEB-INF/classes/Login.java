@@ -36,7 +36,11 @@ public class Login extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("username : " + request.getParameter("username"));
 		System.out.println("password : " + request.getParameter("password"));
-		response.sendRedirect("/anonfake");
+		try {
+		  response.sendRedirect("./");
+		} catch(IOException e) {
+		  System.out.println(e.getMessage()); //TODO : use logger
+		}
 	}
 
 }
