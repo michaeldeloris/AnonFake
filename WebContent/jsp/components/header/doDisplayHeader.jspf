@@ -1,3 +1,6 @@
+<link rel="stylesheet/less" type="text/css" href="style/main.less" />
+<script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.5.1/less.min.js"></script>
+
 <% String title = (String) request.getAttribute("page_title"); %>
 
 <div class="header">
