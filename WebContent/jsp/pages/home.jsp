@@ -11,7 +11,7 @@
     <%@include file="../components/header/doDisplayHeader.jspf"%>
     
     <div class="upload_button">
-      <form action="./">
+      <form action="./" method="post">
         <input type="file" name="upload_file">
         <input type="submit">
       </form>
