@@ -3,17 +3,18 @@
 <!DOCTYPE html>
 <html>
   <head>
-  <meta charset="ISO-8859-1">
-  <title>Anonymous File Upload - AnonFake</title>
+    <meta charset="ISO-8859-1">
+    <title>Anonymous File Upload - AnonFake</title>
   </head>
   
-  <body>
+  <body class="home">
     <%@include file="../components/header/doDisplayHeader.jspf"%>
     
-    <div class="upload_button">
+    <button class="btn upload_button" onclick="document.getElementById('upload_file').click();"> UPLOAD </button>
+    
+    <div class="upload_form">
       <form action="./" method="post">
-        <input type="file" name="upload_file">
-        <input type="submit">
+        <input type="file" name="upload_file" id="upload_file" onchange="submit();">
       </form>
     </div>
     
@@ -27,5 +28,4 @@
     
     <%@include file="../components/footer/doDisplayFooter.jspf"%>
   </body>
-  
 </html>
