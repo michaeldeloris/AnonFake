@@ -13,7 +13,7 @@
     <button class="btn upload_button" onclick="document.getElementById('upload_file').click();"> UPLOAD </button>
     
     <div class="upload_form">
-      <form action="./" method="post">
+      <form action="./" method="post" enctype="multipart/form-data">
         <input type="file" name="upload_file" id="upload_file" onchange="submit();">
       </form>
     </div>
