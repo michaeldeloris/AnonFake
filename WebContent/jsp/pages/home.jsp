@@ -10,7 +10,11 @@
   <body class="home">
     <%@include file="../components/header/doDisplayHeader.jspf"%>
     
-    <button class="btn upload_button" onclick="document.getElementById('upload_file').click();"> UPLOAD </button>
+    <button class="btn btn-primary upload_btn" onclick="document.getElementById('upload_file').click();">
+      <span class="glyphicon glyphicon-upload"></span>
+      UPLOAD 
+      <span class="glyphicon glyphicon-upload"></span>
+    </button>
     
     <div class="upload_form">
       <form action="./" method="post" enctype="multipart/form-data">
