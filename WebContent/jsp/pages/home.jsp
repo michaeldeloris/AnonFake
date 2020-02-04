@@ -25,9 +25,9 @@
     <div class="text homepage_text">
       Upload your files anonymously and free on AnonFiles</br>
       We offer you 20 GB filesize limit and unlimited bandwidth.
-    </div>
-    <div class="subtext">
-      Developer? Check out our <a href="docs/api">API</a>
+      <div class="subtext">
+        Developer? Check out our <a href="docs/api">API</a>
+      </div>
     </div>
     
     <%@include file="../components/footer/doDisplayFooter.jspf"%>

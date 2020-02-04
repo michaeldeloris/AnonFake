@@ -2,8 +2,9 @@ body {
   margin-top: 20px !important;
   text-align : center;
   background-color : @anonfake_bg_grey !important;
-  .text, .subtext, a {
-    color : white;
+  color: @white-color !important;
+  a {
+    color: @white-color;
   }
   .btn {
     padding: 14px 24px;
@@ -14,5 +15,12 @@ body {
   .btn-primary {
     background-color: @anonfake_btn_grey;
     color: @white-color;
+    &:hover {
+      background-color: @anonfake_hover_grey;
+    }
+    &:focus, &:active, &:visited {
+      background-color: @anonfake_btn_grey !important;
+      outline: none !important;
+    }
   }
 } /* body */
