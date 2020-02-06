@@ -3,6 +3,7 @@ package util.database;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Properties;
 
 public class DbManager {
@@ -21,6 +22,13 @@ public class DbManager {
       e.printStackTrace();
     }
     return null;
+  }
+  
+  public static void addLine(Connection conn, String tableName, String... values) throws SQLException {
+    Statement stmt = null;
+    stmt = conn.createStatement();
+    String sql = RequestsDispenser.getInsert(tableName, values);
+    stmt.executeUpdate(sql);
   }
   
 }
