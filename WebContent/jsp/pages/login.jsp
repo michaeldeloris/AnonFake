@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>anonfile clone </title>
+<title>anonfile clone</title>
 </head>
   <body>
     <%@include file="../components/header/doDisplayHeader.jspf"%>
@@ -14,7 +14,7 @@
       </div>
       
       <form action="login" id="login_form" method="post">
-        <div class="form_login username"> 
+        <div class="form username"> 
           <div class="form_label">
             Username:
           </div>
@@ -22,7 +22,7 @@
             <input class="input" type="text" name="username"/>
           </div>
         </div>
-        <div class="form_login pwd"> 
+        <div class="form pwd"> 
           <div class="form_label">
             Password:
           </div>
@@ -32,7 +32,7 @@
         </div>
       </form>
       
-      <button class="btn btn-primary" onclick="window.getElementById('login_form').submit();">LOGIN</button>
+      <button class="btn btn-primary" onclick="document.getElementById('login_form').submit();">LOGIN</button>
     </div>
     <%@include file="../components/footer/doDisplayFooter.jspf"%>
   </body>

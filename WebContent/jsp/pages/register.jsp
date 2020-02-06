@@ -9,22 +9,29 @@
   <body>
     <%@include file="../components/header/doDisplayHeader.jspf"%>
   
-    <form action="register" method="post">
-      <div class="form-group">
-        <label for="username">Username: </label>
-        <input type="text" name="username">
+    <form action="register" id="register_form" method="post">
+      <div class="form">
+        <label class="form_label" for="username">Username: </label>
+        <div class="form_input">
+          <input class="input" type="text" name="username">
+        </div>
       </div>
-      <div class="form-group">
-        <label for="password">Password: </label>
-        <input type="password" name="password">
+      <div class="form">
+        <label class="form_label" for="password">Password: </label>
+        <div class="form_input">
+          <input class="input" type="password" name="password">
+        </div>
       </div>
-      <div class="form-group">
-        <label for="password_confirm">Confirm password: </label>
-        <input type="password" name="password_confirm">
+      <div class="form">
+        <label class="form_label" for="password_confirm">Confirm password: </label>
+        <div class="form_input">
+          <input class="input" type="password" name="password_confirm">
+        </div>
       </div>
       <div class="alert alert-warning text-center">Warning! Remember your password! If you lose it, you will never be able to access your account again (we don't store e-mail addresses).</div>
-      <input type="submit" value="Create account">
     </form>
+    
+    <button class="btn btn-primary" onclick="document.getElementById('register_form').submit();">CREATE ACCOUNT</button>
   
     <%@include file="../components/footer/doDisplayFooter.jspf"%>
   </body>
