@@ -2,6 +2,7 @@ package servlets;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -40,12 +41,37 @@ public class Register extends HttpServlet {
     Connection connection = DbManager.getConnection();
     if(connection == null) {
       response.setStatus(500);
+      redirect(response);
     }
     
-    try {
+    String username = (String) request.getParameter("username");
+    String password = (String) request.getParameter("password");
+    String confirm = (String) request.getParameter("password_confirm");
+    
+    registerMember(username, password, confirm, connection);
+    
+    redirect(response);
+	}
+	
+	private void redirect(HttpServletResponse response) {
+	  try {
       response.sendRedirect("register");
     } catch(IOException e) {
       System.out.println(e.getMessage()); //TODO : use logger
+    }
+	}
+	
+	private void registerMember(String name, String pwd, String confirmPwd, Connection connection) {
+	  if(!pwd.equals(confirmPwd)) {
+	    System.out.println("Password and confirmation not equals.");
+	    return;
+	  }
+	  
+	  String credentials[] = {name, pwd};
+    try {
+      DbManager.addLine(connection, "Members", credentials);
+    } catch (SQLException e) {
+      e.printStackTrace();
     }
 	}
 
