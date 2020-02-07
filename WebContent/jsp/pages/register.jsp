@@ -19,11 +19,11 @@
     
       <% if(error != null ) { %>
         <div class="alert alert-danger-alt text-center">
-          <% if(errorType.equals("username") || errorType.equals("password")) { %>
-            Registration failed. Check the fields below.
-          <% }else { %>
-            Unknown error. Please contact an administrator.
-          <% } %>
+        <% if(errorType.equals("unknown")) { %>
+          <%= error %>
+        <% } else { %>
+          Registration failed. Check the fields below.
+        <% } %>
         </div>
       <% } %>
     

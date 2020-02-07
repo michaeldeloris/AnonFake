@@ -24,13 +24,26 @@ public class MembersManager {
     Connection conn = DbManager.getConnection();
     if(!DbManager.tableExists(conn, tableName)) {
       addMemberTable(conn);
+      DbManager.addPrimaryKey(conn, tableName, colsNames[0]);
     }
     
     try {
       String credentials[] = {name, pwd};
-      DbManager.addLine(conn, tableName, credentials);
+      boolean test= DbManager.addLine(conn, tableName, credentials);
+      if(test) {
+        System.out.println("vrai!!");
+      } else {
+        System.out.println("FAUX");
+      }
     } catch (SQLException e) {
-      
+      if(e.getErrorCode() == 0) {
+        req.setAttribute("errorAttribute", "username");
+        req.setAttribute("error", Error.USERNAME_ALREADY_TAKEN.toString());
+      } else {
+        req.setAttribute("errorAttribute", "unknown");
+        req.setAttribute("error", Error.UNKNOWN_ERROR.toString());
+      }
+      return req;
     }
     return req;
   }
