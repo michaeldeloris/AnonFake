@@ -1,4 +1,3 @@
-<%@page import="util.errors.Error"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
@@ -9,14 +8,8 @@
 </head>
 
   <%
-    String uNameError = (String) request.getAttribute("username_error");
-    String pwdError = (String) request.getAttribute("pwd_error");
-    String unknownError = (String) request.getAttribute("unknown_error");
-    System.out.println(uNameError);
-    boolean error = false;
-    if(uNameError != null || pwdError != null || unknownError != null) {
-      error = true;
-    }
+    String errorType = (String) request.getAttribute("errorAttribute");
+    String error = (String) request.getAttribute("error");
   %>
 
   <body>
@@ -24,9 +17,9 @@
     
     <div class="register">
     
-      <% if(error) { %>
+      <% if(error != null ) { %>
         <div class="alert alert-danger-alt text-center">
-          <% if(unknownError == null) { %>
+          <% if(errorType.equals("username") || errorType.equals("password")) { %>
             Registration failed. Check the fields below.
           <% }else { %>
             Unknown error. Please contact an administrator.
@@ -41,15 +34,11 @@
           <div class="form_input">
             <input class="input" type="text" name="username">
           </div>
-          <% if(uNameError != null) { %>
-            <span class="text-danger">
-            <% if(uNameError.equals(Error.USERNAME_ALREADY_TAKEN.toString())) { %>
-              Username already exists.
-            <% }else if(uNameError.equals(Error.NO_USERNAME_GIVEN.toString())) { %>
-              You must enter a username.
+          <span class="text-danger">
+            <% if(errorType != null && errorType.equals("username")) { %>
+              <%= error %>
             <% } %>
-            </span>
-          <% } %>
+          </span>
         </div>
         
         <div class="form">
@@ -57,15 +46,11 @@
           <div class="form_input">
             <input class="input" type="password" name="password">
           </div>
-          <% if(pwdError != null) { %>
-            <span class="text-danger">
-            <% if(pwdError.equals(Error.MISSMATCH_PASSWORDS.toString())) { %>
-              Passwords doesn't match.
-            <% }else if(pwdError.equals(Error.NO_PASSWORD_GIVEN.toString())) { %>
-              You must enter a password.
+          <span class="text-danger">
+            <% if(errorType != null && errorType.equals("password")) { %>
+              <%= error %>
             <% } %>
-            </span>
-          <% } %>
+          </span>
         </div>
         
         <div class="form">
@@ -73,15 +58,11 @@
           <div class="form_input">
             <input class="input" type="password" name="password_confirm">
           </div>
-          <% if(pwdError != null) { %>
-            <span class="text-danger">
-            <% if(pwdError.equals(Error.MISSMATCH_PASSWORDS.toString())) { %>
-              Passwords doesn't match.
-            <% }else if(pwdError.equals(Error.NO_PASSWORD_GIVEN.toString())) { %>
-              You must enter a password.
+          <span class="text-danger">
+            <% if(errorType != null && errorType.equals("password")) { %>
+              <%= error %>
             <% } %>
-            </span>
-          <% } %>
+          </span>
         </div>
         
       </form>

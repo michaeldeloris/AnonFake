@@ -42,20 +42,17 @@ public class Register extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    Connection connection = DbManager.getConnection();
-    if(connection == null) {
-      response.setStatus(500);
-      redirect(request, response);
-    }
+	  request.setAttribute("page_title", Constants.TITLE_REGISTER);
+	  
     String username = (String) request.getParameter("username");
     String password = (String) request.getParameter("password");
     String confirm = (String) request.getParameter("password_confirm");
     try {
-      MembersManager.registerMember(username, password, confirm);
+      request = MembersManager.registerMember(username, password, confirm, request);
     } catch (SQLException e) {
       e.printStackTrace();
     }
-    request.setAttribute("username_error", Error.NO_USERNAME_GIVEN.toString());
+    
     redirect(request, response);
 	}
 	
