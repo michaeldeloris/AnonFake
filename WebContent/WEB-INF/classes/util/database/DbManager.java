@@ -30,7 +30,6 @@ public class DbManager {
     Statement stmt = conn.createStatement();
     String sql = RequestsDispenser.getInsert(tableName, values);
     int test = stmt.executeUpdate(sql);
-    System.out.println("RESPONSE : " + test);
     stmt.close();
     return true;
   }

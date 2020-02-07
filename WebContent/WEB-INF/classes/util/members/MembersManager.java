@@ -5,6 +5,8 @@ import java.sql.SQLException;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import util.database.DbManager;
 import util.errors.Error;
 
@@ -12,7 +14,7 @@ public class MembersManager {
   
   private static final String tableName = "members";
   private static final String colsNames[] = {"username", "password"};
-  private static final String colsTypes[] = {"VARCHAR(40)", "VARCHAR(40)"};
+  private static final String colsTypes[] = {"VARCHAR(255)", "VARCHAR(255)"};
   
   public static HttpServletRequest registerMember(String name, String pwd, String confirmPwd, HttpServletRequest req) throws SQLException {
     if(!pwd.equals(confirmPwd)) {
@@ -28,22 +30,17 @@ public class MembersManager {
     }
     
     try {
-      String credentials[] = {name, pwd};
-      boolean test= DbManager.addLine(conn, tableName, credentials);
-      if(test) {
-        System.out.println("vrai!!");
-      } else {
-        System.out.println("FAUX");
-      }
+      String credentials[] = {name, hash(pwd)};
+      DbManager.addLine(conn, tableName, credentials);
     } catch (SQLException e) {
-      if(e.getErrorCode() == 0) {
+      System.out.println(e.getSQLState().toString());
+      if(e.getSQLState().equals("23505")) {
         req.setAttribute("errorAttribute", "username");
         req.setAttribute("error", Error.USERNAME_ALREADY_TAKEN.toString());
       } else {
         req.setAttribute("errorAttribute", "unknown");
         req.setAttribute("error", Error.UNKNOWN_ERROR.toString());
       }
-      return req;
     }
     return req;
   }
@@ -56,5 +53,10 @@ public class MembersManager {
       cols[i][1] = colsTypes[i];
     }
     DbManager.createTable(conn, tableName, cols);
+  }
+  
+  private static String hash(String str) {
+    String salt = BCrypt.gensalt();
+    return BCrypt.hashpw(str, salt);
   }
 }
