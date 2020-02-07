@@ -1,9 +1,0 @@
-package util.errors;
-
-public enum Errors {
-  // REGISTER ERRORS 
-  NO_USERNAME_GIVEN,
-  NO_PASSWORD_GIVEN,
-  USERNAME_ALREADY_TAKEN,
-  MISSMATCH_PASSWORDS,
-}

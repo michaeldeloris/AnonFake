@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import util.Constants;
 import util.database.DbManager;
 import util.members.MembersManager;
+import util.errors.Error;
 
 /**
  * Servlet implementation class Register
@@ -46,7 +47,6 @@ public class Register extends HttpServlet {
       response.setStatus(500);
       redirect(response);
     }
-    
     String username = (String) request.getParameter("username");
     String password = (String) request.getParameter("password");
     String confirm = (String) request.getParameter("password_confirm");
@@ -55,7 +55,7 @@ public class Register extends HttpServlet {
     } catch (SQLException e) {
       e.printStackTrace();
     }
-    
+    response.addHeader("username_error", Error.NO_USERNAME_GIVEN.toString());
     redirect(response);
 	}
 	
