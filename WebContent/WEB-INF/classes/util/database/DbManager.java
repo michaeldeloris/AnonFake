@@ -26,16 +26,25 @@ public class DbManager {
     return null;
   }
   
-  public static void addLine(Connection conn, String tableName, String... values) throws SQLException {
+  public static boolean addLine(Connection conn, String tableName, String... values) throws SQLException {
     Statement stmt = conn.createStatement();
     String sql = RequestsDispenser.getInsert(tableName, values);
-    stmt.executeUpdate(sql);
+    int test = stmt.executeUpdate(sql);
+    System.out.println("RESPONSE : " + test);
     stmt.close();
+    return true;
   }
   
   public static void createTable(Connection conn, String tableName, String[][] cols) throws SQLException {
     Statement stmt = conn.createStatement();
     String sql = RequestsDispenser.getTableCreate(tableName, cols);
+    stmt.executeUpdate(sql);
+    stmt.close();
+  }
+  
+  public static void addPrimaryKey(Connection conn, String tableName, String colName) throws SQLException {
+    Statement stmt = conn.createStatement();
+    String sql = RequestsDispenser.getAddPrimaryKey(tableName, colName);
     stmt.executeUpdate(sql);
     stmt.close();
   }

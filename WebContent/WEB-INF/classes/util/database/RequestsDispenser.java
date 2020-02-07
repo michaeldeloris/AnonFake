@@ -30,4 +30,11 @@ public class RequestsDispenser {
     }
     return request.toString();
   }
+  
+  public static String getAddPrimaryKey(String tableName, String colName) {
+    StringBuilder request = new StringBuilder();
+    request.append("ALTER TABLE " + tableName);
+    request.append(" ADD PRIMARY KEY (" + colName + ");");
+    return request.toString();
+  }
 }
