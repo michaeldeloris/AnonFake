@@ -15,15 +15,16 @@ public class RequestsDispenser {
     return request.toString();
   }
   
-  public static String getTableCreate(String tableName, String cols[][]) {
+  public static String getTableCreate(String tableName, String[][] cols) {
     StringBuilder request = new StringBuilder();
     request.append("CREATE TABLE " + tableName + " (");
     for(int i = 0; i < cols.length; i++) {
       for(int j = 0; j < 2; j++) {
         request.append(" " + cols[i][j]);
       }
-      request.append(",");
-      if(i == cols.length -1) {
+      if(i != cols.length -1) {
+        request.append(",");
+      } else {
         request.append(")");
       }
     }

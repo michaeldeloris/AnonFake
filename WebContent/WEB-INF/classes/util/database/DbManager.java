@@ -1,7 +1,9 @@
 package util.database;
 
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
@@ -25,10 +27,28 @@ public class DbManager {
   }
   
   public static void addLine(Connection conn, String tableName, String... values) throws SQLException {
-    Statement stmt = null;
-    stmt = conn.createStatement();
+    Statement stmt = conn.createStatement();
     String sql = RequestsDispenser.getInsert(tableName, values);
     stmt.executeUpdate(sql);
+    stmt.close();
+  }
+  
+  public static void createTable(Connection conn, String tableName, String[][] cols) throws SQLException {
+    Statement stmt = conn.createStatement();
+    String sql = RequestsDispenser.getTableCreate(tableName, cols);
+    stmt.executeUpdate(sql);
+    stmt.close();
+  }
+  
+  public static boolean tableExists(Connection conn, String name) throws SQLException {
+    DatabaseMetaData md = conn.getMetaData();
+    ResultSet result = md.getTables(null, null, "%", null);
+    while (result.next()) {
+      if(result.getString(3).equals(name)) {
+        return true;
+      }
+    }
+    return false;
   }
   
 }

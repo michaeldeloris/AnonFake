@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import util.database.DbManager;
+import util.members.MembersManager;
 
 /**
  * Servlet implementation class Register
@@ -47,8 +48,11 @@ public class Register extends HttpServlet {
     String username = (String) request.getParameter("username");
     String password = (String) request.getParameter("password");
     String confirm = (String) request.getParameter("password_confirm");
-    
-    registerMember(username, password, confirm, connection);
+    try {
+      MembersManager.registerMember(username, password, confirm);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
     
     redirect(response);
 	}
@@ -60,19 +64,4 @@ public class Register extends HttpServlet {
       System.out.println(e.getMessage()); //TODO : use logger
     }
 	}
-	
-	private void registerMember(String name, String pwd, String confirmPwd, Connection connection) {
-	  if(!pwd.equals(confirmPwd)) {
-	    System.out.println("Password and confirmation not equals.");
-	    return;
-	  }
-	  
-	  String credentials[] = {name, pwd};
-    try {
-      DbManager.addLine(connection, "Members", credentials);
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
-	}
-
 }
