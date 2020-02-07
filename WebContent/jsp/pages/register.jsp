@@ -8,7 +8,7 @@
 </head>
   <body>
     <%@include file="../components/header/doDisplayHeader.jspf"%>
-    <div>
+    <div class="register">
       <form action="register" id="register_form" method="post">
         <div class="form">
           <label class="form_label" for="username">Username: </label>
@@ -28,7 +28,7 @@
             <input class="input" type="password" name="password_confirm">
           </div>
         </div>
-        <div class="alert alert-warning text-center">
+        <div class="alert alert-warning text-center warning-btn">
           Warning! Remember your password! If you lose it, you will never be able to access your account again (we don't store e-mail addresses).
         </div>
       </form>

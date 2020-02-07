@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import util.Constants;
 import util.database.DbManager;
 import util.members.MembersManager;
 
@@ -32,6 +33,7 @@ public class Register extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	  request.setAttribute("page_title", Constants.TITLE_REGISTER);
 		request.getRequestDispatcher("/jsp/pages/register.jsp").forward(request, response);
 	}
 
