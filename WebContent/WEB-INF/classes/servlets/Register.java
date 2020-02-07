@@ -45,7 +45,7 @@ public class Register extends HttpServlet {
     Connection connection = DbManager.getConnection();
     if(connection == null) {
       response.setStatus(500);
-      redirect(response);
+      redirect(request, response);
     }
     String username = (String) request.getParameter("username");
     String password = (String) request.getParameter("password");
@@ -55,14 +55,14 @@ public class Register extends HttpServlet {
     } catch (SQLException e) {
       e.printStackTrace();
     }
-    response.addHeader("username_error", Error.NO_USERNAME_GIVEN.toString());
-    redirect(response);
+    request.setAttribute("username_error", Error.NO_USERNAME_GIVEN.toString());
+    redirect(request, response);
 	}
 	
-	private void redirect(HttpServletResponse response) {
+	private void redirect(HttpServletRequest req, HttpServletResponse res) {
 	  try {
-      response.sendRedirect("register");
-    } catch(IOException e) {
+      req.getRequestDispatcher("/jsp/pages/register.jsp").forward(req, res);
+    } catch(ServletException | IOException e) {
       System.out.println(e.getMessage()); //TODO : use logger
     }
 	}
