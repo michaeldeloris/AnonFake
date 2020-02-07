@@ -34,24 +34,34 @@
       <% } %>
     
       <form action="register" id="register_form" method="post">
+      
         <div class="form">
           <label class="form_label" for="username">Username: </label>
           <div class="form_input">
             <input class="input" type="text" name="username">
           </div>
+          <span class="text-danger">Username already exists.</span>
+          <span class="text-danger">You must enter a username.</span>
         </div>
+        
         <div class="form">
           <label class="form_label" for="password">Password: </label>
           <div class="form_input">
             <input class="input" type="password" name="password">
           </div>
+          <span class="text-danger">Passwords doesn't match.</span>
+          <span class="text-danger">You must enter a password.</span>
         </div>
+        
         <div class="form">
           <label class="form_label" for="password_confirm">Confirm password: </label>
           <div class="form_input">
             <input class="input" type="password" name="password_confirm">
           </div>
+          <span class="text-danger">Passwords doesn't match.</span>
+          <span class="text-danger">You must enter a password.</span>
         </div>
+        
       </form>
       
       <div class="alert alert-warning text-center warning-btn">
