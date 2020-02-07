@@ -6,12 +6,23 @@
 <meta charset="ISO-8859-1">
 <title>anonfile clone</title>
 </head>
+
+  <%
+    String error = (String) request.getAttribute("error");
+  %>
+
   <body>
     <%@include file="../components/header/doDisplayHeader.jspf"%>
     <div class="login">
       <div class="page_subtitle">
         No account? <a href="register">Register here.</a>
       </div>
+      
+      <% if(error != null ) { %>
+        <div class="alert alert-danger-alt text-center">
+          Invalid username or password.
+        </div>
+      <% } %>
       
       <form action="login" id="login_form" method="post">
         <div class="form username"> 
