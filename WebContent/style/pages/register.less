@@ -1,14 +1,23 @@
 .register {
+  .alert-danger-alt {
+    border-color: @anonfake_border_red;
+    background: @anonfake_bg_red;
+    color: @anonfake_eggshell;
+    width: 555px;
+    max-width: 95%;
+    margin: 11px auto 20px auto; 
+    font-weight: bold;
+  }
   .warning-btn {
     margin-bottom: 20px !important;
     margin: auto;
     width: 555px;
     max-width: 95%;
-    background-image: -webkit-linear-gradient(top,#fcf8e3 0,#f8efc0 100%);
-    background-image: -o-linear-gradient(top,#fcf8e3 0,#f8efc0 100%);
-    background-image: -webkit-gradient(linear,left top,left bottom,from(#fcf8e3),to(#f8efc0));
-    background-image: linear-gradient(to bottom,#fcf8e3 0,#f8efc0 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fffcf8e3', endColorstr='#fff8efc0', GradientType=0);
+    background-image: -webkit-linear-gradient(top,@anonfake_yellow_light 0,@anonfake_yellow 100%);
+    background-image: -o-linear-gradient(top,@anonfake_yellow_light 0,@anonfake_yellow 100%);
+    background-image: -webkit-gradient(linear,left top,left bottom,from(@anonfake_yellow_light),to(@anonfake_yellow));
+    background-image: linear-gradient(to bottom,@anonfake_yellow_light 0,@anonfake_yellow 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='@anonfake_yellow_light', endColorstr='@anonfake_yellow', GradientType=0);
     background-repeat: repeat-x;
     border-color: #f5e79e;
   } /* .warning-btn */
