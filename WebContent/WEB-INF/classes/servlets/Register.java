@@ -58,9 +58,14 @@ public class Register extends HttpServlet {
 	
 	private void redirect(HttpServletRequest req, HttpServletResponse res) {
 	  try {
-      req.getRequestDispatcher("/jsp/pages/register.jsp").forward(req, res);
+	    if(req.getAttribute("error") == null) {
+	      req.setAttribute("page_title", Constants.TITLE_HOME);
+	      req.getRequestDispatcher("/jsp/pages/home.jsp").forward(req, res);
+	    }else {
+	      req.getRequestDispatcher("/jsp/pages/register.jsp").forward(req, res);
+	    }
     } catch(ServletException | IOException e) {
-      System.out.println(e.getMessage()); //TODO : use logger
+      System.out.println(e.getMessage());
     }
 	}
 }
