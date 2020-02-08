@@ -1,6 +1,7 @@
 package util.members;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,7 +34,6 @@ public class MembersManager {
       String credentials[] = {name, hash(pwd)};
       DbManager.addLine(conn, tableName, credentials);
     } catch (SQLException e) {
-      System.out.println(e.getSQLState().toString());
       if(e.getSQLState().equals("23505")) {
         req.setAttribute("errorAttribute", "username");
         req.setAttribute("error", Error.USERNAME_ALREADY_TAKEN.toString());
@@ -42,6 +42,18 @@ public class MembersManager {
         req.setAttribute("error", Error.UNKNOWN_ERROR.toString());
       }
     }
+    return req;
+  }
+  
+  public static HttpServletRequest logMember(String name, String pwd, HttpServletRequest req) throws SQLException {
+    Connection conn = DbManager.getConnection();
+    try {
+       DbManager.getLineFromValue(conn, tableName, colsNames[0], name);
+    } catch (SQLException e) {
+      req.setAttribute("error", Error.CANNOT_LOG.toString());
+      return req;
+    }
+    
     return req;
   }
   
