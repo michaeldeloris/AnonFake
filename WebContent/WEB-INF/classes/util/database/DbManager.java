@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.Properties;
 import java.util.Set;
 
@@ -36,7 +36,7 @@ public class DbManager {
     stmt.close();
   }
   
-  public static Set<String> getLineFromValue(Connection conn, String tableName, String colName, String value) throws SQLException {
+  public static HashMap<String, String> getLineFromValue(Connection conn, String tableName, String colName, String value) throws SQLException {
     Statement stmt = conn.createStatement();
     String sql = RequestsDispenser.getSelectWhere(tableName, colName, value);
     ResultSet rs = null;
@@ -46,12 +46,11 @@ public class DbManager {
       e.printStackTrace();
     }
     
-    Set<String> cols = new HashSet<>();
+    HashMap<String, String> cols = new HashMap<>();
     ResultSetMetaData rsmeta = rs.getMetaData();
-    int test = rsmeta.getColumnCount();
     while (rs.next()) {
-      for(int i = 1; i <= test; i++) {
-        cols.add(rs.getString(i));
+      for(int i = 1; i <= rsmeta.getColumnCount(); i++) {
+        cols.put(rsmeta.getColumnName(i), rs.getString(i));
       }
     }
     stmt.close();
