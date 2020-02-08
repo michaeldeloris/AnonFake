@@ -1,21 +1,22 @@
 <div class="footer">
   <div class="links">
-    <div class="footer_link">
-      <a href="login">
-      	Login
-      </a>
-    </div>
-    
-    <span> - </span>
-    
-    <div class="footer_link">
-      <a href="register">
-      	Register
-      </a>
-    </div>
-    
-    <span> - </span>
-    
+    <% if(username == null) { %>
+      <div class="footer_link">
+        <a href="login">
+        	Login
+        </a>
+      </div>
+      
+      <span> - </span>
+      
+      <div class="footer_link">
+        <a href="register">
+        	Register
+        </a>
+      </div>
+      
+      <span> - </span>
+    <% } %>
     <div class="footer_link">
       <a href="terms">
       	Terms of Use
