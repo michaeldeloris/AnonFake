@@ -26,12 +26,30 @@ public class DbManager {
     return null;
   }
   
-  public static boolean addLine(Connection conn, String tableName, String... values) throws SQLException {
+  public static void addLine(Connection conn, String tableName, String... values) throws SQLException {
     Statement stmt = conn.createStatement();
     String sql = RequestsDispenser.getInsert(tableName, values);
-    int test = stmt.executeUpdate(sql);
+    stmt.executeUpdate(sql);
     stmt.close();
-    return true;
+  }
+  
+  public static ResultSet getLineFromValue(Connection conn, String tableName, String colName, String value) throws SQLException {
+    Statement stmt = conn.createStatement();
+    String sql = RequestsDispenser.getSelectWhere(tableName, colName, value);
+    ResultSet rs = null;
+    try {
+       rs = stmt.executeQuery(sql);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    
+    while (rs.next()) {
+      System.out.println(rs.getString(1));
+      System.out.println(rs.getString(2));
+    }
+    
+    stmt.close();
+    return rs;
   }
   
   public static void createTable(Connection conn, String tableName, String[][] cols) throws SQLException {

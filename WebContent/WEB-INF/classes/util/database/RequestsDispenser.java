@@ -33,8 +33,13 @@ public class RequestsDispenser {
   
   public static String getAddPrimaryKey(String tableName, String colName) {
     StringBuilder request = new StringBuilder();
-    request.append("ALTER TABLE " + tableName);
-    request.append(" ADD PRIMARY KEY (" + colName + ");");
+    request.append("ALTER TABLE " + tableName + " ADD PRIMARY KEY (" + colName + ");");
+    return request.toString();
+  }
+  
+  public static String getSelectWhere(String tableName, String colName, String value) {
+    StringBuilder request = new StringBuilder();
+    request.append("SELECT * FROM " + tableName + " WHERE " + colName + " = '" + value + "'");
     return request.toString();
   }
 }
