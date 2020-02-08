@@ -4,9 +4,12 @@ import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashSet;
 import java.util.Properties;
+import java.util.Set;
 
 public class DbManager {
   
@@ -33,7 +36,7 @@ public class DbManager {
     stmt.close();
   }
   
-  public static ResultSet getLineFromValue(Connection conn, String tableName, String colName, String value) throws SQLException {
+  public static Set<String> getLineFromValue(Connection conn, String tableName, String colName, String value) throws SQLException {
     Statement stmt = conn.createStatement();
     String sql = RequestsDispenser.getSelectWhere(tableName, colName, value);
     ResultSet rs = null;
@@ -43,13 +46,16 @@ public class DbManager {
       e.printStackTrace();
     }
     
+    Set<String> cols = new HashSet<>();
+    ResultSetMetaData rsmeta = rs.getMetaData();
+    int test = rsmeta.getColumnCount();
     while (rs.next()) {
-      System.out.println(rs.getString(1));
-      System.out.println(rs.getString(2));
+      for(int i = 1; i <= test; i++) {
+        cols.add(rs.getString(i));
+      }
     }
-    
     stmt.close();
-    return rs;
+    return cols;
   }
   
   public static void createTable(Connection conn, String tableName, String[][] cols) throws SQLException {

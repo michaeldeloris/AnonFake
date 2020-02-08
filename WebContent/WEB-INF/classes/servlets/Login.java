@@ -1,14 +1,17 @@
 package servlets;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import util.Constants;
+import util.members.MembersManager;
 
 /**
  * Servlet implementation class Login
@@ -37,11 +40,29 @@ public class Login extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("username : " + request.getParameter("username"));
-		System.out.println("password : " + request.getParameter("password"));
+	  request.setAttribute("page_title", Constants.TITLE_LOGIN);
+	  
+	  String username = request.getParameter("username");
+	  String password = request.getParameter("password");
+	  
+	  
+	  
+	  try {
+      request = MembersManager.logMember(username, password, request);
+    } catch (SQLException e1) {
+      e1.printStackTrace();
+      System.out.println(e1.getMessage());
+    }
+	  
+	  if(request.getAttribute("error") == null) {
+	    HttpSession session = request.getSession();
+	    session.setAttribute("USERSESSID", username);
+	    response.sendRedirect("./");
+	    return;
+	  }
 		
 		try {
-		  response.sendRedirect("./");
+		  request.getRequestDispatcher("/jsp/pages/login.jsp").forward(request, response);
 		} catch(IOException e) {
 		  System.out.println(e.getMessage()); //TODO : use logger
 		}

@@ -1,8 +1,9 @@
 package util.members;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -47,13 +48,16 @@ public class MembersManager {
   
   public static HttpServletRequest logMember(String name, String pwd, HttpServletRequest req) throws SQLException {
     Connection conn = DbManager.getConnection();
+    Set<String> credentials = new HashSet<>();
     try {
-       DbManager.getLineFromValue(conn, tableName, colsNames[0], name);
+      credentials = DbManager.getLineFromValue(conn, tableName, colsNames[0], name);
     } catch (SQLException e) {
-      req.setAttribute("error", Error.CANNOT_LOG.toString());
-      return req;
+      System.out.println(e.getMessage());
     }
-    
+    if(credentials.size() < 1 || 
+        !BCrypt.checkpw(pwd, credentials.toArray()[1].toString())) {
+      req.setAttribute("error", Error.CANNOT_LOG.toString());
+    }
     return req;
   }
   
