@@ -1,20 +1,53 @@
 <link rel="stylesheet/less" type="text/css" href="style/main.less" />
+<link rel="stylesheet" href="resources/bootstrap-3.4.1-dist/css/bootstrap.min.css">
+
 <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.5.1/less.min.js"></script>
+<script type="text/javascript" src="resources/jquery/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="resources/bootstrap-3.4.1-dist/js/bootstrap.min.js"></script>
 
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+<% 
+String title = (String) request.getAttribute("page_title"); 
+String username = (String) session.getAttribute("USERSESSID");
+String url = (String) request.getRequestURI();
 
-<% String title = (String) request.getAttribute("page_title"); %>
+boolean isHome = url.contains("home");
+boolean isLogged = username != null;
+
+%>
 
 <div class="header">
-  <div class="header_logo">
-    <a class="logo_link" href="./">
-      <img class="logo"src="images/anonfake_logo.png">
-    </a>
-  </div>
-  <% if(title != null && !title.isEmpty()) { %>
+  <% if(!isLogged) { %>
+    <div class="header_logo">
+      <a class="logo_link" href="./">
+        <img class="logo"src="images/anonfake_logo.png">
+      </a>
+    </div>
+  <% } else { %>
+    <div class="navbar container-fluid">
+      <a href="./" class="navbar_brand">
+        <img class="navbar_logo"src="images/anonfake_favicon.png">
+        <span>AnonFake</span>
+      </a>
+      
+      <div class="navbar_size">100 GB free.</div>
+      
+      <div class="dropdown show navbar-right">
+        <a href="#" class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Account<span class="caret"></span>
+        </a>
+        
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <div class="dropdown-item username" >Username: <%= username %></div>
+          <div role="separator" class="divider"></div>
+          <a class="dropdown-item logout" href="logout">Logout</a>
+        </div>
+      </div>
+      
+    </div>
+  <% } %>
+  <% if(title != null && !title.isEmpty() && (!isLogged || !isHome)) { %>
     <div class="header_title">
       <%= title %>
     </div>
   <% } %>
 </div>
-

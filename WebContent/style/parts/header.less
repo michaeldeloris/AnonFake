@@ -2,6 +2,64 @@
   .header_logo .logo_link .logo {
     max-height: 128px;
   }
+  .navbar {
+    background-color: @anonfake_btn_grey;
+    color: @white-color;
+    width: 555px;
+    max-width: 95%;
+    display: flex;
+    margin-top: -20px;
+    .navbar_brand {
+      display: flex;
+      float: left;
+      height: 50px;
+      padding: 15px;
+      font-size: 18px;
+      line-height: 20px;
+      margin-left: -15px;
+      .navbar_logo {
+        height: 22px;
+        width: 22px;
+        margin-right: 5px;
+      } /* .navbar_logo */
+    } /* .navbar_brand */
+    .navbar_size {
+      margin-left: 5px;
+      font-size: 12px;
+      margin-top: 15px;
+    }
+    .navbar-right {
+      margin-top: 15px;
+      position: absolute;
+      right: 45px;
+      a {
+        &:focus {
+          color: @white-color;
+          text-decoration: none;
+        } /* &.hover */
+      } /* .dropdown-toggle */
+      .dropdown-menu {
+        color: @black-color;
+        position: absolute;
+        top: 33px;
+        right: -16px;
+        height: 80px;
+        border-radius: 0;
+        .dropdown-item {
+          display: block;
+          padding: 3px 20px;
+          line-height: 1.42857143;
+          white-space: nowrap;
+          &.username {
+            color: @anonfake_light_grey;
+          } /* &.username */
+          &.logout {
+            color: @black-color;
+          } /* &.logout */
+        } /* .dropdown-item */
+      } /* .dropdown-menu */
+    } /* .navbar-right */
+  } /* .navbar */
   .header_title {
     margin-top: 17px; 
     font-size: 25px; 
