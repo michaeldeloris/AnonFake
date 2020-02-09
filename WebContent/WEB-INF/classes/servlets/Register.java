@@ -1,7 +1,6 @@
 package servlets;
 
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.SQLException;
 
 import javax.servlet.ServletException;
@@ -11,9 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import util.Constants;
-import util.database.DbManager;
 import util.members.MembersManager;
-import util.errors.Error;
 
 /**
  * Servlet implementation class Register
@@ -21,26 +18,14 @@ import util.errors.Error;
 @WebServlet("/register")
 public class Register extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public Register() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	  request.setAttribute("page_title", Constants.TITLE_REGISTER);
 		request.getRequestDispatcher("/jsp/pages/register.jsp").forward(request, response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	  request.setAttribute("page_title", Constants.TITLE_REGISTER);
 	  
@@ -52,7 +37,6 @@ public class Register extends HttpServlet {
     } catch (SQLException e) {
       e.printStackTrace();
     }
-    
     redirect(request, response);
 	}
 	
