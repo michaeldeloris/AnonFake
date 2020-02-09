@@ -1,5 +1,10 @@
 package util.database;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
@@ -11,32 +16,75 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.servlet.ServletContext;
+
+import org.apache.catalina.ant.ReloadTask;
+
+import util.Constants;
+
 public class DbManager {
   
-  private static final String URL = "jdbc:postgresql://127.0.0.1:5432/anonfakedb";
-  private static final String USERNAME = "postgres";
-  private static final String PASSWORD = "lyonnais";
-  
-  public static Connection getConnection() {
-    try {
-      Properties props = new Properties();
-      props.setProperty("user", USERNAME);
-      props.setProperty("password", PASSWORD);
-      return DriverManager.getConnection(URL, props);
-    } catch(SQLException e) {
-      e.printStackTrace();
-    }
-    return null;
+  private static final DbManager instance = new DbManager();
+  private String url = null;
+  private String username = null;
+  private String password = null;
+
+  private DbManager() { }
+
+  public static final DbManager getInstance() 
+  {
+      return instance;
   }
   
-  public static void addLine(Connection conn, String tableName, String... values) throws SQLException {
+  public void updateCredentials(ServletContext ctx, String url, String username, String password) {
+    String fullPath = ctx.getRealPath(Constants.PATH_PROPS);
+    try(OutputStream output = new FileOutputStream(fullPath)) {
+      Properties props = new Properties();
+      
+      props.setProperty("db.url", url);
+      props.setProperty("db.user", username);
+      props.setProperty("db.password", password);
+      
+      props.store(output, "Database params");
+      reloadCredentials(fullPath);
+    } catch(IOException e) {
+      System.out.println(e.getMessage());
+    }
+  }
+  
+  private void reloadCredentials(String path) {
+    try (InputStream input = new FileInputStream(path)) {
+      Properties props = new Properties();
+      
+      props.load(input);
+
+      url = props.getProperty("db.url");
+      username = props.getProperty("db.user");
+      password = props.getProperty("db.password");
+    } catch (IOException e) {
+      System.out.println(e.getMessage());
+    }
+  }
+  
+  public Connection getConnection(String url, String username, String password) throws SQLException {
+    Properties props = new Properties();
+    props.setProperty("user", username);
+    props.setProperty("password", password);
+    return DriverManager.getConnection(url, props);
+  }
+  
+  public Connection getConnection() throws SQLException {
+    return getConnection(url, username, password);
+  }
+  
+  public void addLine(Connection conn, String tableName, String... values) throws SQLException {
     Statement stmt = conn.createStatement();
     String sql = RequestsDispenser.getInsert(tableName, values);
     stmt.executeUpdate(sql);
     stmt.close();
   }
   
-  public static Map<String, String> getLineFromValue(Connection conn, String tableName, String colName, String value) throws SQLException {
+  public Map<String, String> getLineFromValue(Connection conn, String tableName, String colName, String value) throws SQLException {
     Statement stmt = conn.createStatement();
     String sql = RequestsDispenser.getSelectWhere(tableName, colName, value);
     ResultSet rs = null;
@@ -57,21 +105,21 @@ public class DbManager {
     return cols;
   }
   
-  public static void createTable(Connection conn, String tableName, String[][] cols) throws SQLException {
+  public void createTable(Connection conn, String tableName, String[][] cols) throws SQLException {
     Statement stmt = conn.createStatement();
     String sql = RequestsDispenser.getTableCreate(tableName, cols);
     stmt.executeUpdate(sql);
     stmt.close();
   }
   
-  public static void addPrimaryKey(Connection conn, String tableName, String colName) throws SQLException {
+  public void addPrimaryKey(Connection conn, String tableName, String colName) throws SQLException {
     Statement stmt = conn.createStatement();
     String sql = RequestsDispenser.getAddPrimaryKey(tableName, colName);
     stmt.executeUpdate(sql);
     stmt.close();
   }
   
-  public static boolean tableExists(Connection conn, String name) throws SQLException {
+  public boolean tableExists(Connection conn, String name) throws SQLException {
     DatabaseMetaData md = conn.getMetaData();
     ResultSet result = md.getTables(null, null, "%", null);
     while (result.next()) {

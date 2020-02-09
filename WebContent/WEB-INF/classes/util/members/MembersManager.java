@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.mindrot.jbcrypt.BCrypt;
@@ -22,21 +23,22 @@ public class MembersManager {
   private static final String[] colsTypes = {"VARCHAR(255)", "VARCHAR(255)"};
   
   public static HttpServletRequest registerMember(String name, String pwd, String confirmPwd, HttpServletRequest req) throws SQLException {
+    DbManager dbm = DbManager.getInstance();
     if(!pwd.equals(confirmPwd)) {
       req.setAttribute("errorAttribute", "password");
       req.setAttribute("error", Error.MISSMATCH_PASSWORDS.toString());
       return req;
     }
     
-    Connection conn = DbManager.getConnection();
-    if(!DbManager.tableExists(conn, TABLE_NAME)) {
+    Connection conn = dbm.getConnection();
+    if(!dbm.tableExists(conn, TABLE_NAME)) {
       addMemberTable(conn);
-      DbManager.addPrimaryKey(conn, TABLE_NAME, colsNames[0]);
+      dbm.addPrimaryKey(conn, TABLE_NAME, colsNames[0]);
     }
     
     try {
       String credentials[] = {name, hash(pwd)};
-      DbManager.addLine(conn, TABLE_NAME, credentials);
+      dbm.addLine(conn, TABLE_NAME, credentials);
     } catch (SQLException e) {
       if(e.getSQLState().equals("23505")) {
         req.setAttribute("errorAttribute", "username");
@@ -49,11 +51,14 @@ public class MembersManager {
     return req;
   }
   
-  public static HttpServletRequest logMember(String name, String pwd, HttpServletRequest req) throws SQLException {
-    Connection conn = DbManager.getConnection();
+  public static HttpServletRequest logMember(ServletContext ctx, String name, String pwd, HttpServletRequest req) throws SQLException {
+    DbManager dbm = DbManager.getInstance();
+    dbm.updateCredentials(ctx, "jdbc:postgresql://127.0.0.1:5432/anonfakedb", "postgres", "lyonnais");
+    
+    Connection conn = dbm.getConnection();
     Map<String, String> credentials = new HashMap<>();
     try {
-      credentials = DbManager.getLineFromValue(conn, TABLE_NAME, colsNames[0], name);
+      credentials = dbm.getLineFromValue(conn, TABLE_NAME, colsNames[0], name);
     } catch (SQLException e) {
       System.out.println(e.getMessage());
     }
@@ -81,7 +86,7 @@ public class MembersManager {
       cols[i][0] = colsNames[i];
       cols[i][1] = colsTypes[i];
     }
-    DbManager.createTable(conn, TABLE_NAME, cols);
+    DbManager.getInstance().createTable(conn, TABLE_NAME, cols);
   }
   
   private static String hash(String str) {

@@ -33,7 +33,7 @@ public class Login extends HttpServlet {
 	  String username = request.getParameter("username");
 	  String password = request.getParameter("password");
 	  try {
-      request = MembersManager.logMember(username, password, request);
+      request = MembersManager.logMember(getServletContext(), username, password, request);
     } catch (SQLException e1) {
       e1.printStackTrace();
       System.out.println(e1.getMessage());
