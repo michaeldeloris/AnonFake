@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,9 +17,9 @@ import util.errors.Error;
 
 public class MembersManager {
   
-  private static final String tableName = "members";
-  private static final String colsNames[] = {"username", "password"};
-  private static final String colsTypes[] = {"VARCHAR(255)", "VARCHAR(255)"};
+  private static final String TABLE_NAME = "members";
+  private static final String[] colsNames = {"username", "password"};
+  private static final String[] colsTypes = {"VARCHAR(255)", "VARCHAR(255)"};
   
   public static HttpServletRequest registerMember(String name, String pwd, String confirmPwd, HttpServletRequest req) throws SQLException {
     if(!pwd.equals(confirmPwd)) {
@@ -28,14 +29,14 @@ public class MembersManager {
     }
     
     Connection conn = DbManager.getConnection();
-    if(!DbManager.tableExists(conn, tableName)) {
+    if(!DbManager.tableExists(conn, TABLE_NAME)) {
       addMemberTable(conn);
-      DbManager.addPrimaryKey(conn, tableName, colsNames[0]);
+      DbManager.addPrimaryKey(conn, TABLE_NAME, colsNames[0]);
     }
     
     try {
       String credentials[] = {name, hash(pwd)};
-      DbManager.addLine(conn, tableName, credentials);
+      DbManager.addLine(conn, TABLE_NAME, credentials);
     } catch (SQLException e) {
       if(e.getSQLState().equals("23505")) {
         req.setAttribute("errorAttribute", "username");
@@ -52,16 +53,16 @@ public class MembersManager {
     Connection conn = DbManager.getConnection();
     Map<String, String> credentials = new HashMap<>();
     try {
-      credentials = DbManager.getLineFromValue(conn, tableName, colsNames[0], name);
+      credentials = DbManager.getLineFromValue(conn, TABLE_NAME, colsNames[0], name);
     } catch (SQLException e) {
       System.out.println(e.getMessage());
     }
     
     String dbPwd = null;
-    Set set = credentials.entrySet();
-    Iterator iterator = set.iterator();
+    Set<Entry<String, String>> set = credentials.entrySet();
+    Iterator<Entry<String, String>> iterator = set.iterator();
     while(iterator.hasNext()) {
-      Map.Entry mentry = (Map.Entry)iterator.next();
+      Map.Entry<String, String> mentry = (Map.Entry<String, String>)iterator.next();
       if(mentry.getKey().equals("password")) {
         dbPwd = (String) mentry.getValue();
       }
@@ -80,7 +81,7 @@ public class MembersManager {
       cols[i][0] = colsNames[i];
       cols[i][1] = colsTypes[i];
     }
-    DbManager.createTable(conn, tableName, cols);
+    DbManager.createTable(conn, TABLE_NAME, cols);
   }
   
   private static String hash(String str) {
