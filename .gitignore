@@ -1,3 +1,5 @@
 .classpath
 .settings
 .project
+
+/WEB-INF/data/config.properties
