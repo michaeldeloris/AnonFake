@@ -1,6 +1,8 @@
 package servlets;
 
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -8,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
 import util.Constants;
 import util.upload.UploadManager;
@@ -30,7 +33,14 @@ public class Home extends HttpServlet {
   @Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	  UploadManager um = new UploadManager();
-	  um.upload(getServletContext().getRealPath(""), request);
+	  
+	  Set<Part> parts = new HashSet<>();
+	  try {
+	    parts = (Set<Part>) request.getParts();
+	    um.upload(getServletContext().getRealPath(""), parts);
+	  } catch(ServletException | IOException e) {
+	    System.out.println(e.getMessage());
+	  }
 	  
 		try {
 			response.sendRedirect("./");
