@@ -2,4 +2,4 @@
 .settings
 .project
 
-WEB-INF/data/config.properties
+**/WEB-INF/data
