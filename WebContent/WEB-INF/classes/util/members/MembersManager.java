@@ -50,7 +50,7 @@ public class MembersManager {
   
   public static HttpServletRequest logMember(String name, String pwd, HttpServletRequest req) throws SQLException {
     Connection conn = DbManager.getConnection();
-    HashMap<String, String> credentials = new HashMap<>();
+    Map<String, String> credentials = new HashMap<>();
     try {
       credentials = DbManager.getLineFromValue(conn, tableName, colsNames[0], name);
     } catch (SQLException e) {

@@ -8,21 +8,21 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
 
 public class DbManager {
   
-  private static final String url = "jdbc:postgresql://127.0.0.1:5432/anonfakedb";
-  private static final String username = "postgres";
-  private static final String password = "lyonnais";
+  private static final String URL = "jdbc:postgresql://127.0.0.1:5432/anonfakedb";
+  private static final String USERNAME = "postgres";
+  private static final String PASSWORD = "lyonnais";
   
   public static Connection getConnection() {
     try {
       Properties props = new Properties();
-      props.setProperty("user", username);
-      props.setProperty("password", password);
-      return DriverManager.getConnection(url, props);
+      props.setProperty("user", USERNAME);
+      props.setProperty("password", PASSWORD);
+      return DriverManager.getConnection(URL, props);
     } catch(SQLException e) {
       e.printStackTrace();
     }
@@ -36,7 +36,7 @@ public class DbManager {
     stmt.close();
   }
   
-  public static HashMap<String, String> getLineFromValue(Connection conn, String tableName, String colName, String value) throws SQLException {
+  public static Map<String, String> getLineFromValue(Connection conn, String tableName, String colName, String value) throws SQLException {
     Statement stmt = conn.createStatement();
     String sql = RequestsDispenser.getSelectWhere(tableName, colName, value);
     ResultSet rs = null;
@@ -46,7 +46,7 @@ public class DbManager {
       e.printStackTrace();
     }
     
-    HashMap<String, String> cols = new HashMap<>();
+    Map<String, String> cols = new HashMap<>();
     ResultSetMetaData rsmeta = rs.getMetaData();
     while (rs.next()) {
       for(int i = 1; i <= rsmeta.getColumnCount(); i++) {
@@ -81,5 +81,4 @@ public class DbManager {
     }
     return false;
   }
-  
 }
