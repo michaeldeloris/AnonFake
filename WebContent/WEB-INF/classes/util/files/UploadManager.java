@@ -1,4 +1,4 @@
-package util.upload;
+package util.files;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,9 +16,9 @@ import util.errors.Error;
 
 public class UploadManager {
   
-  private static final String TABLE_NAME = "files";
-  private static final String[] colsNames = {"username", "filename", "key"};
-  private static final String[] colsTypes = {"VARCHAR(255)", "VARCHAR(255)", "VARCHAR(255)"};
+  public static final String TABLE_NAME = "files";
+  public static final String[] colsNames = {"username", "filename", "key", "filepath"};
+  public static final String[] colsTypes = {"VARCHAR(255)", "VARCHAR(255)", "VARCHAR(255)", "VARCHAR(255)"};
   
   private static final String PATH = "upload";
 
@@ -48,7 +48,8 @@ public class UploadManager {
         addFilesTable(conn);
       }
       for(Part part : parts) {
-        dbm.addLine(conn, TABLE_NAME, username, part.getSubmittedFileName(), getRandomKey());
+        System.out.println(ctxPath + PATH + part.getSubmittedFileName());
+        dbm.addLine(conn, TABLE_NAME, username, part.getSubmittedFileName(), getRandomKey(), ctxPath + PATH + part.getSubmittedFileName());
       }
     } catch (SQLException e) {
       System.out.println(e.getMessage());
@@ -83,12 +84,10 @@ public class UploadManager {
     int targetStringLength = 10;
     Random random = new Random();
  
-    String key = random.ints(leftLimit, rightLimit + 1)
+    return random.ints(leftLimit, rightLimit + 1)
       .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
       .limit(targetStringLength)
       .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
       .toString();
- 
-    return key;
   }
 }

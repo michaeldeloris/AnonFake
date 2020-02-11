@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 import util.Constants;
-import util.upload.UploadManager;
+import util.files.UploadManager;
 
 /**
  * Servlet implementation class Home

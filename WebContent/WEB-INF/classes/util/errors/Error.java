@@ -14,8 +14,10 @@ public enum Error {
   DATABASE_UNREACHABLE("Cannot etablish connection to database."),
   
   // UNKNOWN
-  UNKNOWN_ERROR("An unknown error interrupted the operation. Please contact an administrator.");
+  UNKNOWN_ERROR("An unknown error interrupted the operation. Please contact an administrator."),
   
+  // NOT FOUND
+  NOT_FOUND("The file you are looking for does not exist!");
   
   private final String description;
   
