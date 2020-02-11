@@ -2,20 +2,70 @@ package util.upload;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Collection;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Random;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
+
+import util.database.DbManager;
+import util.errors.Error;
 
 public class UploadManager {
   
+  private static final String TABLE_NAME = "files";
+  private static final String[] colsNames = {"username", "filename", "key"};
+  private static final String[] colsTypes = {"VARCHAR(255)", "VARCHAR(255)", "VARCHAR(255)"};
+  
   private static final String PATH = "upload";
 
-  public void upload(String ctxPath, Collection<Part> parts) throws IOException {
+  public HttpServletRequest upload(HttpServletRequest req, ServletContext ctx, List<Part> parts, String username) throws IOException {
+    String ctxPath = ctx.getRealPath("");
     String path = getPath(ctxPath);
     for(Part part : parts) {
       String fileName = part.getSubmittedFileName();
       part.write(path + File.separator + fileName);
     }
+    
+    DbManager dbm = DbManager.getInstance();
+    Connection conn = null;
+    try {
+       conn = dbm.getConnection(ctx);
+    } catch(SQLException e) {
+      System.out.println(e.getMessage());
+    }
+    
+    if(conn == null) {
+      req.setAttribute("error", Error.DATABASE_UNREACHABLE.toString());
+      return req;
+    }
+    
+    try {
+      if(!dbm.tableExists(conn, TABLE_NAME)) {
+        addFilesTable(conn);
+      }
+      for(Part part : parts) {
+        dbm.addLine(conn, TABLE_NAME, username, part.getSubmittedFileName(), getRandomKey());
+      }
+    } catch (SQLException e) {
+      System.out.println(e.getMessage());
+      req.setAttribute("error", Error.DATABASE_UNREACHABLE.toString());
+    }
+    
+    return req;
+  }
+  
+  private void addFilesTable(Connection conn) throws SQLException {
+    int length = colsNames.length;
+    String[][] cols = new String[length][length];
+    for(int i = 0; i < length; i++) {
+      cols[i][0] = colsNames[i];
+      cols[i][1] = colsTypes[i];
+    }
+    DbManager.getInstance().createTable(conn, "files", cols);
   }
   
   private String getPath(String ctxPath) {
@@ -25,5 +75,20 @@ public class UploadManager {
       uploadDir.mkdir(); //create directory
     }
     return uploadPath;
+  }
+  
+  private String getRandomKey() {
+    int leftLimit = 48; // numeral '0'
+    int rightLimit = 122; // letter 'z'
+    int targetStringLength = 10;
+    Random random = new Random();
+ 
+    String key = random.ints(leftLimit, rightLimit + 1)
+      .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
+      .limit(targetStringLength)
+      .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+      .toString();
+ 
+    return key;
   }
 }

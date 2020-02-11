@@ -1,8 +1,7 @@
 package servlets;
 
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -34,16 +33,17 @@ public class Home extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	  UploadManager um = new UploadManager();
 	  
-	  Set<Part> parts = new HashSet<>();
+	  ArrayList<Part> parts = new ArrayList<>();
 	  try {
-	    parts = (Set<Part>) request.getParts();
-	    um.upload(getServletContext().getRealPath(""), parts);
+	    String username = (String) request.getSession().getAttribute("USERSESSID");
+	    parts = (ArrayList<Part>) request.getParts();
+	    request = um.upload(request, getServletContext(), parts, username);
 	  } catch(ServletException | IOException e) {
 	    System.out.println(e.getMessage());
 	  }
 	  
 		try {
-			response.sendRedirect("./");
+		  request.getRequestDispatcher("/jsp/pages/home.jsp").forward(request, response);
     } catch(IOException e) {
       e.printStackTrace();
     }
