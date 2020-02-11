@@ -1,9 +1,9 @@
-<link rel="stylesheet/less" type="text/css" href="style/main.less" />
+<link rel="stylesheet/less" type="text/css" href="${pageContext.request.contextPath}/style/main.less" />
 <link rel="stylesheet" href="resources/bootstrap-3.4.1-dist/css/bootstrap.min.css">
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.5.1/less.min.js"></script>
-<script type="text/javascript" src="resources/jquery/jquery-3.4.1.min.js"></script>
-<script type="text/javascript" src="resources/bootstrap-3.4.1-dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/jquery/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/bootstrap-3.4.1-dist/js/bootstrap.min.js"></script>
 
 <% 
 String title = (String) request.getAttribute("page_title"); 
@@ -19,13 +19,13 @@ boolean isLogged = username != null;
   <% if(!isLogged) { %>
     <div class="header_logo">
       <a class="logo_link" href="./">
-        <img class="logo"src="images/anonfake_logo.png">
+        <img class="logo"src="${pageContext.request.contextPath}/images/anonfake_logo.png">
       </a>
     </div>
   <% } else { %>
     <div class="navbar container-fluid">
       <a href="./" class="navbar_brand">
-        <img class="navbar_logo"src="images/anonfake_favicon.png">
+        <img class="navbar_logo"src="${pageContext.request.contextPath}/images/anonfake_favicon.png">
         <span>AnonFake</span>
       </a>
       
