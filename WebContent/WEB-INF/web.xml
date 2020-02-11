@@ -9,4 +9,8 @@
     <servlet-name>register</servlet-name>
     <servlet-class>Register</servlet-class>
   </servlet>
+  <error-page>
+    <error-code>404</error-code>
+    <location>/jsp/pages/error.jsp</location>
+  </error-page>
 </web-app>
