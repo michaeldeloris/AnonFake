@@ -21,11 +21,7 @@ public class Parameters extends HttpServlet {
        
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	  if(request.getSession().getAttribute("USERSESSID") == null) {
-	    request.getRequestDispatcher("/jsp/pages/login.jsp").forward(request, response);
-	  } else {
-	    request.getRequestDispatcher("/jsp/pages/params.jsp").forward(request, response);
-	  }
+    request.getRequestDispatcher("/jsp/pages/params.jsp").forward(request, response);
 	}
 
 	@Override
@@ -43,8 +39,12 @@ public class Parameters extends HttpServlet {
     }
 	  
     if(conn != null) {
-      dbm.updateCredentials(request.getServletContext(), url, username, password);
-      request.setAttribute("success", "Connected successfully");
+      try {
+        dbm.updateCredentials(request.getServletContext(), url, username, password);
+        request.setAttribute("success", "Connected successfully");
+      } catch(IOException e) {
+        System.out.println(e.getMessage());
+      }
     }
     request.getRequestDispatcher("/jsp/pages/params.jsp").forward(request, response);
 	}

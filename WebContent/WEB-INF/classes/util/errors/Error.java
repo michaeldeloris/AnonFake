@@ -10,6 +10,9 @@ public enum Error {
   USERNAME_ALREADY_TAKEN("Username already exists."),
   MISSMATCH_PASSWORDS("Passwords doesn't match."),
   
+  //DATABASE
+  DATABASE_UNREACHABLE("Cannot etablish connection to database."),
+  
   // UNKNOWN
   UNKNOWN_ERROR("An unknown error interrupted the operation. Please contact an administrator.");
   

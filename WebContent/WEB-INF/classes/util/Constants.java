@@ -8,6 +8,7 @@ public class Constants {
 	public static final String TITLE_REGISTER = "Create account";
 
 	// PATHS
+	public static final String PATH_DATA = "/WEB-INF/data/";
 	public static final String PATH_PROPS = "/WEB-INF/data/config.properties";
 	
 }

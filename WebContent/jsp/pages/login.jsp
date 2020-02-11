@@ -20,7 +20,7 @@
       
       <% if(error != null ) { %>
         <div class="alert alert-danger-alt text-center">
-          Invalid username or password.
+          <%= error %>
         </div>
       <% } %>
       

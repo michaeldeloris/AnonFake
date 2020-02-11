@@ -1,10 +1,14 @@
 package util.database;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
@@ -17,8 +21,6 @@ import java.util.Map;
 import java.util.Properties;
 
 import javax.servlet.ServletContext;
-
-import org.apache.catalina.ant.ReloadTask;
 
 import util.Constants;
 
@@ -36,20 +38,25 @@ public class DbManager {
       return instance;
   }
   
-  public void updateCredentials(ServletContext ctx, String url, String username, String password) {
-    String fullPath = ctx.getRealPath(Constants.PATH_PROPS);
-    try(OutputStream output = new FileOutputStream(fullPath)) {
-      Properties props = new Properties();
-      
-      props.setProperty("db.url", url);
-      props.setProperty("db.user", username);
-      props.setProperty("db.password", password);
-      
-      props.store(output, "Database params");
-      reloadCredentials(fullPath);
-    } catch(IOException e) {
-      System.out.println(e.getMessage());
+  public void updateCredentials(ServletContext ctx, String url, String username, String password) throws IOException {
+    String propsPath = ctx.getRealPath(Constants.PATH_PROPS);
+    File propsFile = new File(propsPath);
+    if(!propsFile.isFile()) {
+      File dataDir = new File(ctx.getRealPath(Constants.PATH_DATA));
+      if(!dataDir.exists()) {
+        dataDir.mkdir();
+      }
+      propsFile.createNewFile();
     }
+    OutputStream output = new FileOutputStream(propsPath);
+    Properties props = new Properties();
+    
+    props.setProperty("db.url", url);
+    props.setProperty("db.user", username);
+    props.setProperty("db.password", password);
+    
+    props.store(output, "Database params");
+    reloadCredentials(propsPath);
   }
   
   private void reloadCredentials(String path) {
@@ -74,7 +81,17 @@ public class DbManager {
   }
   
   public Connection getConnection() throws SQLException {
-    return getConnection(url, username, password);
+    if(credentialsSetted()) {
+      return getConnection(url, username, password);
+    }
+    return null;
+  }
+  
+  private boolean credentialsSetted() {
+    System.out.println(url != null);
+    System.out.println(username != null );
+    System.out.println(password != null);
+    return url != null && username != null && password != null;
   }
   
   public void addLine(Connection conn, String tableName, String... values) throws SQLException {

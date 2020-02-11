@@ -53,9 +53,19 @@ public class MembersManager {
   
   public static HttpServletRequest logMember(ServletContext ctx, String name, String pwd, HttpServletRequest req) throws SQLException {
     DbManager dbm = DbManager.getInstance();
-    dbm.updateCredentials(ctx, "jdbc:postgresql://127.0.0.1:5432/anonfakedb", "postgres", "lyonnais");
     
-    Connection conn = dbm.getConnection();
+    Connection conn = null;
+    try {
+      conn = dbm.getConnection();
+    } catch(SQLException e) {
+      System.out.println(e.getMessage());
+    }
+    
+    if(conn == null) {
+      req.setAttribute("error", Error.DATABASE_UNREACHABLE.toString());
+      return req;
+    }
+    
     Map<String, String> credentials = new HashMap<>();
     try {
       credentials = dbm.getLineFromValue(conn, TABLE_NAME, colsNames[0], name);
