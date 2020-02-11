@@ -3,6 +3,7 @@ package servlets;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -33,7 +34,7 @@ public class Register extends HttpServlet {
     String password = (String) request.getParameter("password");
     String confirm = (String) request.getParameter("password_confirm");
     try {
-      request = MembersManager.registerMember(username, password, confirm, request);
+      request = MembersManager.registerMember(getServletContext(), username, password, confirm, request);
     } catch (SQLException e) {
       e.printStackTrace();
     }

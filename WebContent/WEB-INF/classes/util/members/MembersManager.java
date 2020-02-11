@@ -1,5 +1,6 @@
 package util.members;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -22,7 +23,7 @@ public class MembersManager {
   private static final String[] colsNames = {"username", "password"};
   private static final String[] colsTypes = {"VARCHAR(255)", "VARCHAR(255)"};
   
-  public static HttpServletRequest registerMember(String name, String pwd, String confirmPwd, HttpServletRequest req) throws SQLException {
+  public static HttpServletRequest registerMember(ServletContext ctx, String name, String pwd, String confirmPwd, HttpServletRequest req) throws SQLException {
     DbManager dbm = DbManager.getInstance();
     if(!pwd.equals(confirmPwd)) {
       req.setAttribute("errorAttribute", "password");
@@ -30,7 +31,15 @@ public class MembersManager {
       return req;
     }
     
-    Connection conn = dbm.getConnection();
+    Connection conn;
+    try {
+      conn = dbm.getConnection(ctx);
+    } catch (SQLException | IOException e1) {
+      System.out.println(e1.getMessage());
+      req.setAttribute("error", Error.DATABASE_UNREACHABLE.toString());
+      return req;
+    }
+    
     if(!dbm.tableExists(conn, TABLE_NAME)) {
       addMemberTable(conn);
       dbm.addPrimaryKey(conn, TABLE_NAME, colsNames[0]);
@@ -56,8 +65,8 @@ public class MembersManager {
     
     Connection conn = null;
     try {
-      conn = dbm.getConnection();
-    } catch(SQLException e) {
+      conn = dbm.getConnection(ctx);
+    } catch(IOException | SQLException e) {
       System.out.println(e.getMessage());
     }
     

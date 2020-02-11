@@ -56,21 +56,17 @@ public class DbManager {
     props.setProperty("db.password", password);
     
     props.store(output, "Database params");
-    reloadCredentials(propsPath);
+    reloadCredentials(ctx);
   }
   
-  private void reloadCredentials(String path) {
-    try (InputStream input = new FileInputStream(path)) {
-      Properties props = new Properties();
-      
-      props.load(input);
-
-      url = props.getProperty("db.url");
-      username = props.getProperty("db.user");
-      password = props.getProperty("db.password");
-    } catch (IOException e) {
-      System.out.println(e.getMessage());
-    }
+  private void reloadCredentials(ServletContext ctx) throws IOException {
+    String propsPath = ctx.getRealPath(Constants.PATH_PROPS);
+    InputStream input = new FileInputStream(propsPath);
+    Properties props = new Properties();
+    props.load(input);
+    url = props.getProperty("db.url");
+    username = props.getProperty("db.user");
+    password = props.getProperty("db.password");
   }
   
   public Connection getConnection(String url, String username, String password) throws SQLException {
@@ -80,17 +76,14 @@ public class DbManager {
     return DriverManager.getConnection(url, props);
   }
   
-  public Connection getConnection() throws SQLException {
-    if(credentialsSetted()) {
-      return getConnection(url, username, password);
+  public Connection getConnection(ServletContext ctx) throws SQLException, IOException {
+    if(!credentialsSetted()) {
+      reloadCredentials(ctx);
     }
-    return null;
+    return getConnection(url, username, password);
   }
   
   private boolean credentialsSetted() {
-    System.out.println(url != null);
-    System.out.println(username != null );
-    System.out.println(password != null);
     return url != null && username != null && password != null;
   }
   
