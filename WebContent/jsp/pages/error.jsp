@@ -5,20 +5,26 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>404 - Not Found!</title>
+<%
+  System.setProperty("tomcat.util.http.parser.HttpParser.requestTargetAllow", "{}");
+  String uri = request.getAttribute("javax.servlet.forward.request_uri").toString();
+  ServletContext ctx= request.getServletContext();
+  HttpServletRequest req = DownloadManager.retrieveFile(request, ctx, uri);
+  String error = (String) req.getAttribute("error");
+  String fileName = (String) req.getAttribute("filename");
+  String key = (String) req.getAttribute("key");
+%>
+<title>
+<% if(fileName == null && key == null) { %>
+  404 - Not Found!
+<% }else { %>
+  <%= fileName %>
+<% } %>
+</title>
 </head>
 <body>
   <%@include file="../components/header/doDisplayHeader.jspf"%>
   
-  <%
-    System.setProperty("tomcat.util.http.parser.HttpParser.requestTargetAllow", "{}");
-    String uri = request.getAttribute("javax.servlet.forward.request_uri").toString();
-    ServletContext ctx= request.getServletContext();
-    HttpServletRequest req = DownloadManager.retrieveFile(request, ctx, uri);
-    String error = (String) req.getAttribute("error");
-    String fileName = (String) req.getAttribute("filename");
-    String key = (String) req.getAttribute("key");
-  %>
   <% if(error != null) { %>
     <div class="error">
       <div class="title">
