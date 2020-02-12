@@ -40,8 +40,8 @@
           <%= fileName %>
         </div>
         <div class="url">
-          <span class="copy-url-wrapper"><span class="glyphicon glyphicon-copy"></span><strong>Copy</strong></span>
-          <input class="form-control upload-file-input" type="text" value="<%= downloadURL %>" readonly>
+          <span class="copy-url-wrapper" onclick="copyLink()"><span class="glyphicon glyphicon-copy"></span><strong>Copy</strong></span>
+          <input class="form-control upload-file-input" id="download_input" type="text" value="<%= downloadURL %>" readonly>
         </div>
       </div>
     <% } %>
@@ -58,3 +58,18 @@
     <%@include file="../components/footer/doDisplayFooter.jspf"%>
   </body>
 </html>
+
+<script type="text/javascript">
+function copyLink() {
+  /* Get the text field */
+  var copyText = document.getElementById("download_input");
+
+  /* Select the text field */
+  copyText.select();
+  copyText.setSelectionRange(0, 99999); /*For mobile devices*/
+
+  /* Copy the text inside the text field */
+  document.execCommand("copy");
+}
+</script>
+
