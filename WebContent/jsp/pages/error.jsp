@@ -17,7 +17,7 @@
     HttpServletRequest req = DownloadManager.retrieveFile(request, ctx, uri);
     String error = (String) req.getAttribute("error");
     String fileName = (String) req.getAttribute("filename");
-    String filePath = (String) req.getAttribute("filepath");
+    String key = (String) req.getAttribute("key");
   %>
   <% if(error != null) { %>
     <div class="error">
@@ -29,15 +29,14 @@
       </div>
     </div>
   <% } %>
-  <% if(fileName != null && filePath != null) { %>
+  <% if(fileName != null && key != null) { %>
     <div class="file">
       <div class="title">
         <%= fileName %>
       </div>
       <%
-        String dlUrl = java.net.URLEncoder.encode("anonfake/downloadServlet?filename=" + fileName + "?filepath=" + filePath,"UTF-8").replace("+","%20");
       %>
-      <a href="/<%= dlUrl %>">DOWNLOAD</a>
+      <a href="/anonfake/downloadServlet?key=<%= key %>">DOWNLOAD</a>
     </div>
   <% } %>
   <%@include file="../components/footer/doDisplayFooter.jspf"%>

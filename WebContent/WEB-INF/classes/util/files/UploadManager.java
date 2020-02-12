@@ -20,7 +20,7 @@ public class UploadManager {
   public static final String[] colsNames = {"username", "filename", "key", "filepath"};
   public static final String[] colsTypes = {"VARCHAR(255)", "VARCHAR(255)", "VARCHAR(255)", "VARCHAR(255)"};
   
-  private static final String PATH = "upload";
+  public static final String PATH = "upload";
 
   public HttpServletRequest upload(HttpServletRequest req, ServletContext ctx, List<Part> parts, String username) throws IOException {
     String ctxPath = ctx.getRealPath("");

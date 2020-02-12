@@ -31,18 +31,18 @@ public class DownloadManager {
       Iterator<Entry<String, String>> iterator = set.iterator();
       
       String fileName = null;
-      String filePath = null;
+      String key = null;
       while(iterator.hasNext()) {
         Map.Entry<String, String> mentry = (Map.Entry<String, String>)iterator.next();
         if(mentry.getKey().equals("filename")) {
           fileName = mentry.getValue();
-        }else if(mentry.getKey().equals("filepath")) {
-          filePath = mentry.getValue();
+        }else if(mentry.getKey().equals("key")) {
+          key = mentry.getValue();
         }
       }
-      if(fileName != null && filePath != null) {
+      if(fileName != null && key != null) {
         req.setAttribute("filename", fileName);
-        req.setAttribute("filepath", filePath);
+        req.setAttribute("key", key);
         return req;
       }
     } catch (SQLException | IOException e) {
