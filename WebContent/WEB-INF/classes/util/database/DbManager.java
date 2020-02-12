@@ -99,6 +99,7 @@ public class DbManager {
        rs = stmt.executeQuery(sql);
     } catch (SQLException e) {
       e.printStackTrace();
+      return null;
     }
     
     Map<String, String> cols = new HashMap<>();

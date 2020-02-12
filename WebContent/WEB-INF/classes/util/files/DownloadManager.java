@@ -27,6 +27,10 @@ public class DownloadManager {
     try {
       Connection conn = dbm.getConnection(ctx);
       Map<String, String> credentials = dbm.getLineFromValue(conn, UploadManager.TABLE_NAME, UploadManager.colsNames[2], parts[2]);
+      if(credentials == null) {
+        req.setAttribute("error", Error.NOT_FOUND.toString());
+        return req;
+      }
       Set<Entry<String, String>> set = credentials.entrySet();
       Iterator<Entry<String, String>> iterator = set.iterator();
       

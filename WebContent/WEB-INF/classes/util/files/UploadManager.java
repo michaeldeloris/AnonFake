@@ -46,6 +46,7 @@ public class UploadManager {
     try {
       if(!dbm.tableExists(conn, TABLE_NAME)) {
         addFilesTable(conn);
+        dbm.addPrimaryKey(conn, TABLE_NAME, colsNames[2]);
       }
       for(Part part : parts) {
         System.out.println(ctxPath + PATH + part.getSubmittedFileName());
