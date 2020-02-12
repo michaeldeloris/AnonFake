@@ -18,7 +18,7 @@ boolean isLogged = username != null;
 <div class="header">
   <% if(!isLogged) { %>
     <div class="header_logo">
-      <a class="logo_link" href="./">
+      <a class="logo_link" href="/anonfake">
         <img class="logo"src="${pageContext.request.contextPath}/images/anonfake_logo.png">
       </a>
     </div>
