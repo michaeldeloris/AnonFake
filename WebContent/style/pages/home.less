@@ -12,6 +12,7 @@
     text-align: left;
     margin-top: 25px;
     .title {
+      margin-bottom: 8px;
       font-weight: bold;
     }
     .url {
@@ -41,6 +42,12 @@
         margin-left: -5px;
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
+        &:focus {
+          box-shadow: none;
+          border: 1px solid #ccc;
+          border-top-left-radius: 0;
+          border-bottom-left-radius: 0;
+        }
       } /* .upload-file-input */
     } /* .url */
   } /* .uploaded-file */
