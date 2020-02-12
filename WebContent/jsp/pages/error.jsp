@@ -40,9 +40,11 @@
       <div class="title">
         <%= fileName %>
       </div>
-      <%
-      %>
-      <a href="/anonfake/downloadServlet?key=<%= key %>">DOWNLOAD</a>
+      <div class="text-center">
+        <a target="_blank" type="button" id="download-url" class="btn btn-primary btn-block" href="/anonfake/downloadServlet?key=<%= key %>">
+          Download 
+        </a>
+      </div>
     </div>
   <% } %>
   <%@include file="../components/footer/doDisplayFooter.jspf"%>
