@@ -25,8 +25,20 @@ public class UploadManager {
   public HttpServletRequest upload(HttpServletRequest req, ServletContext ctx, List<Part> parts, String username) throws IOException {
     String ctxPath = ctx.getRealPath("");
     String path = getPath(ctxPath);
+    String fileName = null;
+    int i = 0;
     for(Part part : parts) {
-      String fileName = part.getSubmittedFileName();
+      fileName = part.getSubmittedFileName();
+      String extension = fileName.substring(fileName.lastIndexOf("."));
+      String filePath = path + File.separator + fileName;
+      File tempFile = new File(filePath);
+      while(tempFile.exists()) {
+        i++;
+        fileName = fileName.substring(0, fileName.lastIndexOf(".")) + Integer.toString(i) + extension;
+        System.out.println(fileName);
+        filePath = path + File.separator + fileName;
+        tempFile = new File(filePath);
+      }
       part.write(path + File.separator + fileName);
     }
     
@@ -49,7 +61,6 @@ public class UploadManager {
         dbm.addPrimaryKey(conn, TABLE_NAME, colsNames[2]);
       }
       for(Part part : parts) {
-        String fileName = part.getSubmittedFileName();
         String key = getRandomKey();
         dbm.addLine(conn, TABLE_NAME, username, fileName, key);
         req.setAttribute("filename", fileName);
