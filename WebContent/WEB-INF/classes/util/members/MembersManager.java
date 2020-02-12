@@ -75,6 +75,11 @@ public class MembersManager {
       return req;
     }
     
+    if(!dbm.tableExists(conn, TABLE_NAME)) {
+      addMemberTable(conn);
+      dbm.addPrimaryKey(conn, TABLE_NAME, colsNames[0]);
+    }
+    
     Map<String, String> credentials = new HashMap<>();
     try {
       credentials = dbm.getLineFromValue(conn, TABLE_NAME, colsNames[0], name);
