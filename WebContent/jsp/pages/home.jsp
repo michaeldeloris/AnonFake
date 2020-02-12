@@ -41,7 +41,7 @@
         </div>
         <div class="url">
           <span class="copy-url-wrapper"><span class="glyphicon glyphicon-copy"></span><strong>Copy</strong></span>
-          <input class="form-control upload-file-input" type="text" value="<%= downloadURL %>" readonly="">
+          <input class="form-control upload-file-input" type="text" value="<%= downloadURL %>" readonly>
         </div>
       </div>
     <% } %>

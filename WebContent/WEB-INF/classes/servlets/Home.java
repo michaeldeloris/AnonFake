@@ -31,6 +31,7 @@ public class Home extends HttpServlet {
 
   @Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    request.setAttribute("page_title", Constants.TITLE_HOME);
 	  UploadManager um = new UploadManager();
 	  
 	  ArrayList<Part> parts = new ArrayList<>();
