@@ -35,7 +35,6 @@ public class UploadManager {
       while(tempFile.exists()) {
         i++;
         fileName = fileName.substring(0, fileName.lastIndexOf(".")) + Integer.toString(i) + extension;
-        System.out.println(fileName);
         filePath = path + File.separator + fileName;
         tempFile = new File(filePath);
       }
