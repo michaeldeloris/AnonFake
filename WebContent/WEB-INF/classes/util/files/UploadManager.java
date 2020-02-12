@@ -17,8 +17,8 @@ import util.errors.Error;
 public class UploadManager {
   
   public static final String TABLE_NAME = "files";
-  public static final String[] colsNames = {"username", "filename", "key", "filepath"};
-  public static final String[] colsTypes = {"VARCHAR(255)", "VARCHAR(255)", "VARCHAR(255)", "VARCHAR(255)"};
+  public static final String[] colsNames = {"username", "filename", "key"};
+  public static final String[] colsTypes = {"VARCHAR(255)", "VARCHAR(255)", "VARCHAR(255)"};
   
   public static final String PATH = "upload";
 
@@ -49,8 +49,7 @@ public class UploadManager {
         dbm.addPrimaryKey(conn, TABLE_NAME, colsNames[2]);
       }
       for(Part part : parts) {
-        System.out.println(ctxPath + PATH + part.getSubmittedFileName());
-        dbm.addLine(conn, TABLE_NAME, username, part.getSubmittedFileName(), getRandomKey(), ctxPath + PATH + part.getSubmittedFileName());
+        dbm.addLine(conn, TABLE_NAME, username, part.getSubmittedFileName(), getRandomKey());
       }
     } catch (SQLException e) {
       System.out.println(e.getMessage());
