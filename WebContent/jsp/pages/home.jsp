@@ -7,6 +7,11 @@
     <title>Anonymous File Upload - AnonFake</title>
   </head>
   
+  <%
+    String fileName = (String) request.getAttribute("filename");
+    String fileKey = (String) request.getAttribute("filekey");
+  %>
+  
   <body class="home">
     <%@include file="../components/header/doDisplayHeader.jspf"%>
     
@@ -22,9 +27,29 @@
       </form>
     </div>
     
+    <%if(fileName != null && fileKey != null) { %>
+      <%
+      StringBuffer test = request.getRequestURL();
+      String uri = request.getRequestURI();
+      String ctx = request.getContextPath();
+      String baseurl = test.substring(0, test.length() - uri.length() + ctx.length()) + "/";
+      String downloadURL = baseurl + fileKey + "/" + fileName; 
+      %>
+      <div class="uploaded-file">
+        <div class="title">
+          <%= fileName %>
+        </div>
+        <div class="url">
+          <span class="copy-url-wrapper"><span class="glyphicon glyphicon-copy"></span><strong>Copy</strong></span>
+          <input class="form-control upload-file-input" type="text" value="<%= downloadURL %>" readonly="">
+        </div>
+      </div>
+    <% } %>
     <div class="text homepage_text">
-      Upload your files anonymously and free on AnonFiles</br>
-      We offer you 20 GB filesize limit and unlimited bandwidth.
+      <% if(fileName == null || fileKey == null) { %>
+        Upload your files anonymously and free on AnonFiles</br>
+        We offer you 20 GB filesize limit and unlimited bandwidth.
+      <% } %>
       <div class="subtext">
         Developer? Check out our <a href="docs/api">API</a>
       </div>

@@ -6,7 +6,44 @@
   .upload_form {
     display: none;
   } /* .upload_form */
-  
+  .uploaded-file {
+    width: 555px;
+    margin: auto;
+    text-align: left;
+    margin-top: 25px;
+    .title {
+      font-weight: bold;
+    }
+    .url {
+      position: relative;
+      display: flex;
+      border-collapse: separate;
+      .copy-url-wrapper {
+        padding: 6px 12px;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1;
+        color: #555;
+        text-align: center;
+        background-color: #eee;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        cursor: pointer;
+        display: flex;
+        padding-top: 7px;
+      } /* .copy-url-wrapper */
+      .upload-file-input {
+        position: relative;
+        z-index: 2;
+        float: left;
+        width: 100%;
+        margin-bottom: 0;
+        margin-left: -5px;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+      } /* .upload-file-input */
+    } /* .url */
+  } /* .uploaded-file */
   .homepage_text {
     margin-top: 36px;
     line-height: 30px;

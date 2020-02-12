@@ -49,7 +49,11 @@ public class UploadManager {
         dbm.addPrimaryKey(conn, TABLE_NAME, colsNames[2]);
       }
       for(Part part : parts) {
-        dbm.addLine(conn, TABLE_NAME, username, part.getSubmittedFileName(), getRandomKey());
+        String fileName = part.getSubmittedFileName();
+        String key = getRandomKey();
+        dbm.addLine(conn, TABLE_NAME, username, fileName, key);
+        req.setAttribute("filename", fileName);
+        req.setAttribute("filekey", key);
       }
     } catch (SQLException e) {
       System.out.println(e.getMessage());
