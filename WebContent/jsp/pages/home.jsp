@@ -72,4 +72,3 @@ function copyLink() {
   document.execCommand("copy");
 }
 </script>
-
