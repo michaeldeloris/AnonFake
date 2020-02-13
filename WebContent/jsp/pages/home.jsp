@@ -5,6 +5,7 @@
   <head>
     <meta charset="ISO-8859-1">
     <title>Anonymous File Upload - AnonFake</title>
+    <link rel="shortcut icon" href="favicon.ico"/>
   </head>
   
   <%

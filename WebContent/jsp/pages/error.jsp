@@ -4,7 +4,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
+  <meta charset="ISO-8859-1">
+  <link rel="shortcut icon" href="favicon.ico"/>
 <%
   System.setProperty("tomcat.util.http.parser.HttpParser.requestTargetAllow", "{}");
   String uri = request.getAttribute("javax.servlet.forward.request_uri").toString();

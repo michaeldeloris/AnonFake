@@ -8,8 +8,9 @@
   %>
   
   <head>
-  <meta charset="ISO-8859-1">
-  <title>Insert title here</title>
+    <meta charset="ISO-8859-1">
+    <title>Insert title here</title>
+    <link rel="shortcut icon" href="favicon.ico"/>
   </head>
   <body>
     <span> Connection to database. </span>

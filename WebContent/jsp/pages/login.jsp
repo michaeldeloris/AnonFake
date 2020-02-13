@@ -3,8 +3,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
-<title>anonfile clone</title>
+  <meta charset="ISO-8859-1">
+  <title>anonfile clone</title>
+  <link rel="shortcut icon" href="favicon.ico"/>
 </head>
 
   <%

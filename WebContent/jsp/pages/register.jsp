@@ -3,8 +3,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
-<title>Register - AnonFake</title>
+  <meta charset="ISO-8859-1">
+  <title>Register - AnonFake</title>
+  <link rel="shortcut icon" href="favicon.ico"/>
 </head>
 
   <%
